@@ -16,11 +16,11 @@ T=[1/M 0  0;
    0 1/M  0;
    0   0  1];
 
-n_pts1 = [pts1 ones(size(pts2,1),1)]';
+n_pts1 = [pts1 ones(size(pts1,1),1)]';
 n_pts1 = T*n_pts1;
 n_pts1 = repmat(n_pts1',1,3);
 
-n_pts2 = [pts2 ones(size(pts1,1),1)]';
+n_pts2 = [pts2 ones(size(pts2,1),1)]';
 n_pts2 = T*n_pts2;
 n_pts2 = repelem(n_pts2',1,3);
 
