@@ -11,8 +11,9 @@ function [ F ] = sevenpoint( pts1, pts2, M )
 
 %     Write recovered F and display the output of displayEpipolarF in your writeup
 
-T=[2/M 0  -1;
-   0 2/M  -1;
+% Normalization factor T
+T=[1/M 0  0;
+   0 1/M  0;
    0   0  1];
 
 n_pts1 = [pts1 ones(size(pts2,1),1)]';
@@ -25,27 +26,20 @@ n_pts2 = repelem(n_pts2',1,3);
 
 % Construct A matrix
 A = n_pts1.*n_pts2;
-
 % Solve for F
 [~,S,V] = svd(A);
 F1 = reshape(V(:,end),3,3)';
 F2 = reshape(V(:,end-1),3,3)';
+
+A*V(:,end-1)
+
+% Solve for lambda
 syms a;
-F = a*F1+(1-a)*F2;
-F = solve(det(F) == 0, a);
+F = (1-a)*F1+a*F2;
+p = roots(sym2poly(det(F)))
 
-% pick alpha such that det(alpha F1 + (1-alpha) F2) = 0
+F = (1-p(3))*F1+p(3)*F2;
+%  F = refineF(F,pts1,pts2);
+F = T' * F * T;
 
-% F = reshape(V(:,end),3,3)';
-% 
-% % Singularity constraint
-% [UF, WF, VF] = svd(F);
-% WF(3,3) = 0;
-% F = UF * WF * VF';
-% 
-% % Refine answer
-% F = refineF(F,pts1,pts2);
-% 
-% % unnormalized
-% F = T' * F * T;
 end

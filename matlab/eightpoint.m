@@ -12,8 +12,8 @@ function [ F ] = eightpoint( pts1, pts2, M )
 %     Write F and display the output of displayEpipolarF in your writeup
 
 % Normalization factor T
-T=[2/M 0  -1;
-   0 2/M  -1;
+T=[1/M 0  0;
+   0 1/M  0;
    0   0  1];
 
 n_pts1 = [pts1 ones(size(pts2,1),1)]';
@@ -37,9 +37,9 @@ F = reshape(F,3,3)';
 WF(3,3) = 0;
 F = UF * WF * VF';
 
-% Refine answer
-F = refineF(F,pts1,pts2);
-
 % unnormalized
 F = T' * F * T;
+
+% Refine answer
+F = refineF(F,pts1,pts2);
 end
