@@ -31,18 +31,30 @@ nullA = null(A);
 F1 = reshape(nullA(:,1),3,3)';
 F2 = reshape(nullA(:,2),3,3)';
 
-% Solve for lambda
+% Solve for alpha
 syms a;
 F = (a)*F1+(1-a)*F2;
+sym2poly(det(F));
 p = roots(sym2poly(det(F)));
-F = (p(3))*F1+(1-p(3))*F2;
 
-% Singularity constraint
-[UF, WF, VF] = svd(F);
-WF(3,3) = 0;
-F = UF * WF * VF';
+% Check for imaginary numbers
+if (isreal(p(1)) && isreal(p(2)) && isreal(p(3)))
+    F11 = T'*((p(1))*F1+(1-p(1))*F2)*T;
+    F11 = F11/norm(F11);
+    
+    F22 = T'*((p(2))*F1+(1-p(2))*F2)*T;
+    F22 = F22/norm(F22);
+    
+    F33 = T'*((p(3))*F1+(1-p(3))*F2)*T;
+    F33 = F33/norm(F33);
+    F = [mat2cell(F11,3,3),mat2cell(F22,3,3),mat2cell(F33,3,3)];
+else
+    realpart = p == real(p);
+    F = T'*((p(realpart))*F1+(1-p(realpart))*F2)*T;
+    F = F/norm(F);
+    F =  mat2cell(F,3,3);
+end
 
-F = T' * F * T;
-% Refine F
-%F = refineF(F,pts1,pts2);
+%save('q2_2.mat','F','M','pts1','pts2')
+
 end
