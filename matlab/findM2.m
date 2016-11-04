@@ -34,12 +34,13 @@ for i = 1 : 4
     pt_test = P(1,:)';
     PT_test2 = M2_temp*pt_test;
     PT_test1 = M1*pt_test;
-    error
+
     % Test to see whether this point is in both camera views
-    [PT_test2(3), PT_test1(3)]
     if (PT_test2(3)> 0 && PT_test1(3) > 0)
         M2 = M2_temp;
+        break;
     end;
+    
 end
 
 save('q2_5 .mat','M2','pts1','pts2','P');

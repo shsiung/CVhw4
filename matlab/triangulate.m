@@ -28,7 +28,12 @@ for i = 1 : size(p1,1)
     [~,~,V] = svd(A);
     P(i,:) = V(:,end)'/V(end,end);
 end
-norm(p2'-M2*P')
-error = norm(p1' - M1*P')^2+norm(p2'-M2*P')^2;
+p1_proj = M1*P';
+p1_proj = bsxfun (@rdivide, p1_proj, p1_proj(3,:));
+
+p2_proj = M2*P';
+p2_proj = bsxfun (@rdivide, p2_proj, p2_proj(3,:));
+
+error = norm(p1' - p1_proj)^2+norm(p2'-p2_proj)^2;
 
 end
