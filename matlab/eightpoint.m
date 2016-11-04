@@ -44,6 +44,6 @@ F = T' * F * T;
 F = refineF(F,pts1,pts2);
 F = F/norm(F);
 
-save('q2_1.mat','F','M','pts1','pts2')
+%save('q2_1.mat','F','M','pts1','pts2')
 
 end
