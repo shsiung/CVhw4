@@ -29,7 +29,7 @@ M2s = camera2(E);
 for i = 1 : 4
     M2_temp = M2s(:,:,i);
     M2_temp = K2*M2_temp;
-    [P, error] = triangulate(M1,pts1,M2_temp,pts2);
+    [P, ~] = triangulate(M1,pts1,M2_temp,pts2);
 
     pt_test = P(1,:)';
     PT_test2 = M2_temp*pt_test;
