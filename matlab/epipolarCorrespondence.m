@@ -34,8 +34,6 @@ im2_pad(bound+1:size(im2,1)+bound,bound+1:size(im2,2)+bound,:) = im2;
 im1_win = im1_pad(y1-bound+1:y1+bound+1,...
                   x1-bound+1:x1+bound+1,:).*win;
 
-              
-
 error = zeros(size(im2,1)-1,1);
 last_err = 999999999;
 for i = bound+1 : 1 : size(im2,1)+bound-1
@@ -43,9 +41,7 @@ for i = bound+1 : 1 : size(im2,1)+bound-1
     x2_temp = round((-epi_line(3)-epi_line(2)*i)/epi_line(1));
     im2_win = im2_pad(i-bound+1:i+bound+1,...
                       x2_temp-bound+1:x2_temp+bound+1,:).*win;
-%     clf;
-%     figure(1)
-%     imshowpair(im1_win(:,:,:),im2_win(:,:,:),'montage');
+
     error(i-bound) = sum(sum(sum(abs(im2_win-im1_win))));
     if (error(i-bound) < last_err)
         y2 = i;

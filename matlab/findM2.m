@@ -2,7 +2,6 @@
 %       1. Load point correspondences
 %       2. Obtain the correct M2
 %       3. Save the correct M2, p1, p2, R and P to q2_5.mat
-
 function M2 = findM2()
 
 corr = load('../data/some_corresp.mat');
@@ -43,7 +42,7 @@ for i = 1 : 4
     
 end
 
-%save('q2_5 .mat','M2','pts1','pts2','P');
+save('q2_5.mat','M2','pts1','pts2','P');
 
 end
 
